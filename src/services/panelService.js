@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {requestConfig, responseConfig} from '@configs/axiosConfig.js'
 
-export class AccountService {
+export class PanelServices {
 
     constructor() {
         this.api = axios.create({
@@ -10,14 +10,14 @@ export class AccountService {
         this.api.interceptors.request.use(requestConfig)
     }
 
-    // getUserInfo() {
-    //     return new Promise((resolve, reject) => {
-    //         this.api.get('/panel/site/user-info')
-    //         .then((result) => {
-    //             resolve(result)
-    //         }).catch((err) => {
-    //             reject(err)
-    //         })
-    //     })
-    // }
+    addCase(address) {
+        return new Promise((resolve, reject) => {
+            this.api.post('/case', address)
+            .then((result) => {
+                resolve(result)
+            }).catch((err) => {
+                reject(err)
+            })
+        })
+    }
 }

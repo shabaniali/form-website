@@ -3,8 +3,7 @@ import jwt from '@src/auth/jwt/useJwt'
 export const requestConfig = (config) => {
 	const accessToken = `${jwt.jwtConfig.tokenType} ${jwt.getToken()}`  
 	config.headers = {
-		"accept-language": "fa-ir",
-		"platform-version": window.env.platform_version
+		"accept-language": "fa-ir"
 	}
 
 	if (accessToken) {
