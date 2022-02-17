@@ -1,0 +1,154 @@
+/*================================================================================
+	Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+	Version: 2.0
+	Author: PIXINVENT
+	Author URL: http://www.themeforest.net/user/pixinvent
+================================================================================
+
+NOTE:
+------
+PLACE HERE YOUR OWN SCSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
+WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
+
+@import './variables/variables';
+
+body{
+	font-family: $font-family-sans-serif !important;
+}
+
+.fallback-logo{
+	width: 68px;
+	
+}
+
+[dir="rtl"] .Toastify__toast .Toastify__toast-body, .Toastify__toast .Toastify__close-button{
+	text-align: right !important;
+	font-family: IRANSans !important;
+}
+
+[dir] .Toastify__toast{
+	direction: rtl;
+}
+
+[dir="rtl"] .react-tel-input{
+	direction: ltr !important;
+}
+
+
+.react-tel-input .form-control{
+	width: 100% !important;
+}
+
+[dir="rtl"] .react-tel-input .ir{
+	background-position: 0 -66px !important;
+}
+
+[dir="rtl"] .react-tel-input .form-control {
+    padding-left: 48px;
+    margin-left: 0;
+}
+
+[dir="rtl"] .react-tel-input .flag-dropdown {
+    border-radius: 3px 0 0 3px !important;
+}
+
+[dir="rtl"] .react-tel-input .selected-flag {
+    padding: 0 0 0 8px !important; 
+    border-radius: 3px 0 0 3px  !important;
+}
+[dir="rtl"] .react-tel-input .selected-flag .arrow {
+    left: 20px;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+}
+[dir] .react-tel-input .country-list .country{
+	 text-align: left !important;
+}
+
+.language-box{
+	margin-top: 50px;
+	direction: ltr !important;
+	.title{
+		font-size: 1em;
+		font-weight: 300;
+		margin: 0 5px;
+		cursor: pointer;
+	}
+
+	.active{
+		font-weight: 500;
+	}
+}
+.image-404{
+	width: 400px;
+}
+.header-navbar .navbar-container ul.navbar-nav li.balance-user-box .dropdown-menu{
+	width: 24rem !important;
+	@media screen and (max-width: 500px) {
+		width: 100% !important;
+	}
+}
+.unit{
+	font-weight: 500;
+	font-size: 0.7em;
+	margin-left: 10px;
+	margin-right: 10px;
+	color: #999;
+}
+.recharts-layer .recharts-cartesian-axis-tick{
+	font-size: 0.8em !important;
+	width: 20px !important;
+}
+
+.userSelect{
+	transition: color 0.3s ease;
+	cursor: pointer
+}
+
+.userSelect:hover {
+	color: #737373 !important;
+}
+
+.deleteModalIcon {
+	background-color: #ea5455;
+	width: 70px;
+	height: 70px;
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 15px;
+	margin-bottom: 10px;
+}
+
+.table-dot {
+	height: 4px;
+	width: 4px;
+	margin-right: 6px;
+	border-radius: 50%;
+	background-color: #635cce;
+}
+
+.table-collapse-title {
+	font-weight: 500;
+	cursor: pointer;
+	transition: color 0.3s ease;
+}
+
+.table-collapse-icon {
+	margin-right: 10px;
+}
+
+.table-collapse-item {
+	font-size: 13px;
+	margin-top: 4px;
+}
+
+.table-collapse {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.cursor {
+	cursor: pointer;
+}
