@@ -9,6 +9,7 @@ const NewFile = () => {
   const [data, setData] = useState({address: ''})
   const [created, setCreated] = useState(false) 
 
+  // ** Function to create a case
   const createCase = () => {
     const panelServices = new PanelServices
     panelServices.addCase(data)
@@ -22,6 +23,7 @@ const NewFile = () => {
     })
   }
 
+  // add user to case
     return (
       <Fragment>
         <h4 className='mb-2'>افزودن پرونده</h4>

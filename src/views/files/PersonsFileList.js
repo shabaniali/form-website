@@ -149,9 +149,9 @@ const PersonsFileList = () => {
       cell: row => {
         return (
           <React.Fragment>
-            <Eye className='ml-1 cursor' size={18} onClick={() => { history.push('/panel/viewUser/1') }}/>
-            <Edit className='ml-1 cursor' size={18} onClick={() => { history.push('/panel/editUser/1') }}/>
-            <Trash className='ml-1 cursor' size={18} onClick={() => { setDeleteModal(true) }}/>
+            <Eye className='ml-1 cursor-pointer' size={18} onClick={() => { history.push('/panel/viewUser/1') }}/>
+            <Edit className='ml-1 cursor-pointer' size={18} onClick={() => { history.push('/panel/editUser/1') }}/>
+            <Trash className='ml-1 cursor-pointer' size={18} onClick={() => { setDeleteModal(true) }}/>
             <Modal modalClassName={'modal-danger'} isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)}>
               <ModalHeader toggle={() => setDeleteModal(!deleteModal)}>حذف {row.name}</ModalHeader>
               <ModalBody>

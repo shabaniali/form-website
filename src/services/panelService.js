@@ -20,4 +20,16 @@ export class PanelServices {
             })
         })
     }
+
+    getAllCases() {
+        return new Promise((resolve, reject) => {
+            this.api.get('/case')
+            .then((result) => {
+                resolve(result)
+            }).catch((err) => {
+                reject(err)
+            })
+        })
+    }
 }
+

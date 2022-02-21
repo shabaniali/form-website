@@ -85,7 +85,7 @@ const ViewUser = () => {
       cell: row => {
         return (
           <React.Fragment>
-            <Trash className='ml-1 cursor' size={18} onClick={() => { setResumeDeleteModal(row.id) }}/>
+            <Trash className='ml-1 cursor-pointer' size={18} onClick={() => { setResumeDeleteModal(row.id) }}/>
             <Modal modalClassName={'modal-danger'} isOpen={resumeDeleteModal === row.id} toggle={() => setResumeDeleteModal(0)}>
               <ModalHeader toggle={() => setResumeDeleteModal(0)}>حذف {row.title}</ModalHeader>
               <ModalBody>
@@ -128,7 +128,7 @@ const ViewUser = () => {
       cell: row => {
         return (
           <React.Fragment>
-            <Trash className='ml-1 cursor' size={18} onClick={() => { setSkillDeleteModal(row.id) }}/>
+            <Trash className='ml-1 cursor-pointer' size={18} onClick={() => { setSkillDeleteModal(row.id) }}/>
             <Modal modalClassName={'modal-danger'} isOpen={skillDeleteModal === row.id} toggle={() => setSkillDeleteModal(0)}>
               <ModalHeader toggle={() => setSkillDeleteModal(0)}>حذف {row.title}</ModalHeader>
               <ModalBody>
@@ -171,7 +171,7 @@ const ViewUser = () => {
       cell: row => {
         return (
           <React.Fragment>
-            <Trash className='ml-1 cursor' size={18} onClick={() => { setRequirementDeleteModal(row.id) }}/>
+            <Trash className='ml-1 cursor-pointer' size={18} onClick={() => { setRequirementDeleteModal(row.id) }}/>
             <Modal modalClassName={'modal-danger'} isOpen={requirementDeleteModal === row.id} toggle={() => setRequirementDeleteModal(0)}>
               <ModalHeader toggle={() => setRequirementDeleteModal(0)}>حذف {row.title}</ModalHeader>
               <ModalBody>
