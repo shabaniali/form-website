@@ -15,10 +15,8 @@ const NewFile = () => {
     panelServices.addCase(data)
     .then((res) => {
       setCreated(true)
-      console.log(res)
     })
     .catch((err) => {
-      console.log(err)
       HandleErrors(err)
     })
   }

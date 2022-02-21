@@ -26,15 +26,12 @@ const Files = () => {
 
   // ** States
   const [currentPage, setCurrentPage] = useState(0)
-  const [deleteModal, setDeleteModal] = useState(false)
+  const [deleteModal, setDeleteModal] = useState('')
   const [listData, setListData] = useState([])
   const [spin, setSpin] = useState({
     list: false,
     delete: false,
-    edit: false,
-    view: false,
-    status: false
-
+    status: ''
   })
 
   // ** Function to handle Pagination
@@ -72,6 +69,58 @@ const Files = () => {
   const TextCopy = (text) => {
     navigator.clipboard.writeText(text)
     toast.success("کپی شد!")
+  }
+
+  // ** Function to get all cases
+  const getCases = () => {
+    const panelServices = new PanelServices
+    panelServices.getAllCases()
+    .then((res) => {
+      setSpin({...spin, list: false})
+      setListData(res.data)
+    })
+    .catch((err) => {
+      setSpin({...spin, list: false})
+      HandleErrors(err)
+    })
+  }
+
+  useEffect(() => {
+    setSpin({...spin, list: true})
+    getCases()
+  }, [])
+
+  // ** Function to change case status
+  const changeStatus = (id, type) => {
+    setSpin({...spin, status: id})
+    const panelServices = new PanelServices
+    panelServices.changeStatus(id, type)
+    .then((res) => {
+      setSpin({...spin, status: ''})
+      getCases()
+    })
+    .catch((err) => {
+      setSpin({...spin, status: ''})
+      HandleErrors(err)
+    })
+  }
+
+  // ** Function to Delete a case
+  const DeleteCase = (id) => {
+    setDeleteModal('')
+    setSpin({...spin, delete: true})
+    const panelServices = new PanelServices
+    panelServices.deleteCase(id)
+    .then((res) => {
+      setSpin({...spin, delete: false})
+      toast.success(`پرونده با موفقیت حذف شد!`)
+      getCases()
+
+    })
+    .catch((err) => {
+      setSpin({...spin, delete: false})
+      HandleErrors(err)
+    })
   }
 
   // //** Expandable table component
@@ -127,9 +176,9 @@ const Files = () => {
         return (
           <React.Fragment>
             {row.active ? 
-              <Button.Ripple size={'sm'} color='success'>فعال</Button.Ripple>
+              <Button.Ripple onClick={() => { changeStatus(row.id, 'activate') }} size={'sm'} color='success'>{spin.status === row.id ? <Spinner size={'sm'} /> : "فعال"}</Button.Ripple>
               :
-              <Button.Ripple size={'sm'} color='danger'>غیرقعال</Button.Ripple>
+              <Button.Ripple onClick={() => { changeStatus(row.id, 'deactivate') }} size={'sm'} color='danger'>{spin.status === row.id ? <Spinner size={'sm'} /> : "غیرفعال"}</Button.Ripple>
             }
           </React.Fragment>
         )
@@ -144,9 +193,9 @@ const Files = () => {
           <React.Fragment>
             <Eye className='ml-1 cursor-pointer' size={18} onClick={() => { history.push('/panel/viewFile/1') }}/>
             <Edit className='ml-1 cursor-pointer' size={18} onClick={() => { history.push('/panel/editFile/1') }}/>
-            <Trash className='ml-1 cursor-pointer' size={18} onClick={() => { setDeleteModal(true) }}/>
-            <Modal modalClassName={'modal-danger'} isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)}>
-              <ModalHeader toggle={() => setDeleteModal(!deleteModal)}>حذف پرونده {row.number}</ModalHeader>
+            <Trash className='ml-1 cursor-pointer' size={18} onClick={() => { setDeleteModal(row.id) }}/>
+            <Modal modalClassName={'modal-danger'} isOpen={deleteModal === row.id} toggle={() => setDeleteModal('')}>
+              <ModalHeader toggle={() => setDeleteModal('')}>حذف پرونده {row.number}</ModalHeader>
               <ModalBody>
                 <div className='d-flex flex-column align-items-center'>
                   <div className='deleteModalIcon'>
@@ -154,38 +203,19 @@ const Files = () => {
                   </div>
                   <h4 className='mt-2'>آیا از حذف پرونده {row.number} اطمینان دارید؟</h4>
                 </div>
+
+                <div className='d-flex justify-content-center my-2'>
+                  <Button color='danger' onClick={(e) => DeleteCase(row.id)}>
+                    حذف پرونده
+                  </Button>
+                </div>
               </ModalBody>
-              <ModalFooter className="justify-content-center">
-                <Button color='danger' onClick={() => setDeleteModal(!deleteModal)}>
-                  حذف پرونده
-                </Button>
-              </ModalFooter>
             </Modal>
           </React.Fragment>
         )
       }
     }
   ]
-
-  // ** Function to get all cases
-  const getCases = () => {
-    setSpin({...spin, list: true})
-    const panelServices = new PanelServices
-    panelServices.getAllCases()
-    .then((res) => {
-      setSpin({...spin, list: false})
-      console.log(res)
-      setListData(res.data)
-    })
-    .catch((err) => {
-      setSpin({...spin, list: false})
-      HandleErrors(err)
-    })
-  }
-
-  useEffect(() => {
-    getCases()
-  }, [])
 
   return (
    <React.Fragment>

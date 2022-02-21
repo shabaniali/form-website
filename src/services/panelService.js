@@ -31,5 +31,27 @@ export class PanelServices {
             })
         })
     }
+
+    changeStatus(id, type) {
+        return new Promise((resolve, reject) => {
+            this.api.patch(`/case/${id}/${type}`)
+            .then((result) => {
+                resolve(result)
+            }).catch((err) => {
+                reject(err)
+            })
+        })
+    }
+
+    deleteCase(id) {
+        return new Promise((resolve, reject) => {
+            this.api.delete(`/case/${id}`)
+            .then((result) => {
+                resolve(result)
+            }).catch((err) => {
+                reject(err)
+            })
+        })
+    }
 }
 
