@@ -29,7 +29,7 @@ const Files = () => {
   const [deleteModal, setDeleteModal] = useState('')
   const [listData, setListData] = useState([])
   const [spin, setSpin] = useState({
-    list: false,
+    list: true,
     delete: false,
     status: ''
   })
@@ -86,7 +86,6 @@ const Files = () => {
   }
 
   useEffect(() => {
-    setSpin({...spin, list: true})
     getCases()
   }, [])
 
@@ -148,7 +147,7 @@ const Files = () => {
       name: 'شماره پرونده',
       selector: 'number',
       sortable: true,
-      minWidth: '140px'
+      minWidth: '100px'
     },
     {
       name: 'آدرس',
@@ -169,6 +168,19 @@ const Files = () => {
       }
     },
     {
+      name: 'تارخ ثبت',
+      selector: 'registration_date',
+      sortable: true,
+      minWidth: '220px',
+      cell: row => {
+        return (
+          <span className="d-flex align-items-center cursor-pointer">
+            {row.registration_date}
+          </span>
+        )
+      }
+    },
+    {
       name: 'وضعیت',
       allowOverflow: true,
       minWidth: '140px',
@@ -176,9 +188,9 @@ const Files = () => {
         return (
           <React.Fragment>
             {row.active ? 
-              <Button.Ripple onClick={() => { changeStatus(row.id, 'activate') }} size={'sm'} color='success'>{spin.status === row.id ? <Spinner size={'sm'} /> : "فعال"}</Button.Ripple>
+              <Button.Ripple onClick={() => { changeStatus(row.id, 'deactivate') }} size={'sm'} color='success'>{spin.status === row.id ? <Spinner size={'sm'} /> : "فعال"}</Button.Ripple>
               :
-              <Button.Ripple onClick={() => { changeStatus(row.id, 'deactivate') }} size={'sm'} color='danger'>{spin.status === row.id ? <Spinner size={'sm'} /> : "غیرفعال"}</Button.Ripple>
+              <Button.Ripple onClick={() => { changeStatus(row.id, 'activate') }} size={'sm'} color='danger'>{spin.status === row.id ? <Spinner size={'sm'} /> : "غیرفعال"}</Button.Ripple>
             }
           </React.Fragment>
         )
@@ -191,8 +203,8 @@ const Files = () => {
       cell: row => {
         return (
           <React.Fragment>
-            <Eye className='ml-1 cursor-pointer' size={18} onClick={() => { history.push('/panel/viewFile/1') }}/>
-            <Edit className='ml-1 cursor-pointer' size={18} onClick={() => { history.push('/panel/editFile/1') }}/>
+            <Eye className='ml-1 cursor-pointer' size={18} onClick={() => { history.push(`/panel/viewFile/${row.id}`) }}/>
+            <Edit className='ml-1 cursor-pointer' size={18} onClick={() => { history.push(`/panel/editFile/${row.id}`) }}/>
             <Trash className='ml-1 cursor-pointer' size={18} onClick={() => { setDeleteModal(row.id) }}/>
             <Modal modalClassName={'modal-danger'} isOpen={deleteModal === row.id} toggle={() => setDeleteModal('')}>
               <ModalHeader toggle={() => setDeleteModal('')}>حذف پرونده {row.number}</ModalHeader>

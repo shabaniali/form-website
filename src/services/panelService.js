@@ -21,6 +21,17 @@ export class PanelServices {
         })
     }
 
+    getCase(id) {
+        return new Promise((resolve, reject) => {
+            this.api.get(`/case/${id}`)
+            .then((result) => {
+                resolve(result)
+            }).catch((err) => {
+                reject(err)
+            })
+        })
+    }
+
     getAllCases() {
         return new Promise((resolve, reject) => {
             this.api.get('/case')

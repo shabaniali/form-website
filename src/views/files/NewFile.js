@@ -6,6 +6,7 @@ import NewUser from '../users/NewUser'
 import PersonsFileList from './PersonsFileList'
 
 const NewFile = () => {
+  // ** States
   const [data, setData] = useState({address: ''})
   const [created, setCreated] = useState(false) 
 
