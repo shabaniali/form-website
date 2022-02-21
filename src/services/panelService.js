@@ -64,5 +64,16 @@ export class PanelServices {
             })
         })
     }
+
+    updateCase(data) {
+        return new Promise((resolve, reject) => {
+            this.api.put('/case', data)
+            .then((result) => {
+                resolve(result)
+            }).catch((err) => {
+                reject(err)
+            })
+        })
+    }
 }
 
