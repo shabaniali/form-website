@@ -20,12 +20,13 @@ import { PanelServices } from '../../services/panelService'
 import { HandleErrors } from '../../utility/Utils'
 import BlockUi from 'react-block-ui'
 import 'react-block-ui/dist/style.css'
+import Moment from 'jalali-moment'
 
 const Files = () => {
   const history = useHistory()
 
   // ** States
-  const [currentPage, setCurrentPage] = useState(0)
+  // const [currentPage, setCurrentPage] = useState(0)
   const [deleteModal, setDeleteModal] = useState('')
   const [listData, setListData] = useState([])
   const [spin, setSpin] = useState({
@@ -35,35 +36,35 @@ const Files = () => {
   })
 
   // ** Function to handle Pagination
-  const handlePagination = page => {
-    setCurrentPage(page.selected)
-  }
+  // const handlePagination = page => {
+  //   setCurrentPage(page.selected)
+  // }
 
   // ** Custom Pagination
-  const CustomPagination = () => (
-    <ReactPaginate
-      previousLabel=''
-      nextLabel=''
-      forcePage={currentPage}
-      onPageChange={page => handlePagination(page)}
-      pageCount={listData.length / 7 || 1}
-      breakLabel='...'
-      pageRangeDisplayed={2}
-      marginPagesDisplayed={2}
-      activeClassName='active'
-      pageClassName='page-item'
-      breakClassName='page-item'
-      breakLinkClassName='page-link'
-      nextLinkClassName='page-link'
-      nextClassName='page-item next'
-      previousClassName='page-item prev'
-      previousLinkClassName='page-link'
-      pageLinkClassName='page-link'
-      breakClassName='page-item'
-      breakLinkClassName='page-link'
-      containerClassName='pagination react-paginate separated-pagination pagination-sm justify-content-end pr-1 mt-1'
-    />
-  )
+  // const CustomPagination = () => (
+  //   <ReactPaginate
+  //     previousLabel=''
+  //     nextLabel=''
+  //     forcePage={currentPage}
+  //     onPageChange={page => handlePagination(page)}
+  //     pageCount={1}
+  //     breakLabel='...'
+  //     pageRangeDisplayed={2}
+  //     marginPagesDisplayed={2}
+  //     activeClassName='active'
+  //     pageClassName='page-item'
+  //     breakClassName='page-item'
+  //     breakLinkClassName='page-link'
+  //     nextLinkClassName='page-link'
+  //     nextClassName='page-item next'
+  //     previousClassName='page-item prev'
+  //     previousLinkClassName='page-link'
+  //     pageLinkClassName='page-link'
+  //     breakClassName='page-item'
+  //     breakLinkClassName='page-link'
+  //     containerClassName='pagination react-paginate separated-pagination pagination-sm justify-content-end pr-1 mt-1'
+  //   />
+  // )
 
   // ** Function to copy transaction hash
   const TextCopy = (text) => {
@@ -78,6 +79,7 @@ const Files = () => {
     .then((res) => {
       setSpin({...spin, list: false})
       setListData(res.data)
+      console.log(res.data)
     })
     .catch((err) => {
       setSpin({...spin, list: false})
@@ -175,7 +177,7 @@ const Files = () => {
       cell: row => {
         return (
           <span className="d-flex align-items-center cursor-pointer">
-            {row.registration_date}
+           {Moment(row.registration_date, "YYYY-MM-DDTHH:mm:ss").format('jYYYY-jMM-jDD HH:mm:ss')}
           </span>
         )
       }
@@ -245,17 +247,17 @@ const Files = () => {
           </CardHeader>
           <DataTable
             noHeader
-            pagination
+            // pagination
             data={listData}
             // expandableRows
             columns={columns}
             // expandOnRowClicked
             className='react-dataTable'
             sortIcon={<ChevronDown size={10} />}
-            paginationDefaultPage={currentPage + 1}
+            // paginationDefaultPage={currentPage + 1}
             // expandableRowsComponent={<ExpandableTable />}
-            paginationRowsPerPageOptions={[7, 25, 50, 100]}
-            paginationComponent={CustomPagination}
+            // paginationRowsPerPageOptions={500}
+            // paginationComponent={CustomPagination}
           />
         </Card>
       </Fragment>

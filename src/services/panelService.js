@@ -75,5 +75,27 @@ export class PanelServices {
             })
         })
     }
+
+    getAllCasePersons(id) {
+        return new Promise((resolve, reject) => {
+            this.api.get(`/case/${id}/person`)
+            .then((result) => {
+                resolve(result)
+            }).catch((err) => {
+                reject(err)
+            })
+        })
+    }
+
+    addPersonToCase(id, data) {
+        return new Promise((resolve, reject) => {
+            this.api.post(`/person/?case-id=${id}`, data)
+            .then((result) => {
+                resolve(result)
+            }).catch((err) => {
+                reject(err)
+            })
+        })
+    }
 }
 
