@@ -87,9 +87,9 @@ export class PanelServices {
         })
     }
 
-    addPersonToCase(id, data) {
+    addPersonToCase(data) {
         return new Promise((resolve, reject) => {
-            this.api.post(`/person/?case-id=${id}`, data)
+            this.api.post(`/person`, data)
             .then((result) => {
                 resolve(result)
             }).catch((err) => {

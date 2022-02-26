@@ -22,7 +22,7 @@ const NewFile = () => {
     const panelServices = new PanelServices
     panelServices.getAllCasePersons(id)
     .then((res) => {
-      // console.log(res)
+      setCasePersons(res.data)
     })
     .catch((err) => {
       HandleErrors(err)
@@ -30,7 +30,7 @@ const NewFile = () => {
   }
   
   const getPersonsList = () => { 
-    getPersons()
+    getPersons(caseId)
   }
 
   // ** Function to create a case
@@ -64,7 +64,7 @@ const NewFile = () => {
           {created && 
             <Fragment>
               {casePersons.length !== 0 ?
-                <PersonsFileList /> :
+                <PersonsFileList data={casePersons}/> :
                 <h5 className='mt-2 mb-3'>لیست افراد مشمول پرونده خالی است.</h5>
               }
               <div className='mb-1'>

@@ -2,7 +2,7 @@ import jalaali from 'jalaali-js'
 
 export const years = []
 const currentYear = jalaali.toJalaali(new Date()).jy
-for (let y = 1300; y <= currentYear; y++) {
+for (let y = currentYear; y >= 1300; y--) {
   const year = y
   years.push({ value: year, label: year })
 }

@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Button, Modal, ModalBody, FormGroup, Row, Col, Input, Form, Label, CustomInput, Spinner } from 'reactstrap'
 import Select from 'react-select'
 import { Check, Plus, X } from 'react-feather'
@@ -10,17 +10,12 @@ import { HandleErrors } from '../../utility/Utils'
 import jalaali from 'jalaali-js'
 import moment from 'jalali-moment'
 
-
-const CustomLabel = () => (
-  <Fragment>
-    <span className='switch-icon-left'>
-      <Check size={14} />
-    </span>
-    <span className='switch-icon-right'>
-      <X size={14} />
-    </span>
-  </Fragment>
-)
+const familyRole = [
+  { value: 3, label: 'تعریف نشده' },
+  { value: 0, label: 'پدر' },
+  { value: 1, label: 'مادر' },
+  { value: 2, label: 'فرزند' }
+]
 
 const NewUser = (props) => {
   const [modal, setModal] = useState(null)
@@ -33,10 +28,13 @@ const NewUser = (props) => {
     phone_number: '',
     is_leader: true,
     education_field: '',
-    education_location: ''
+    education_location: '',
+    case_id: '',
+    description: '',
+    family_role: null
   })
   const [date, setDate] = useState({
-    y: years[years.length - 1],
+    y: years[0],
     m: month[0],
     d: day[0]
   })
@@ -51,8 +49,14 @@ const NewUser = (props) => {
     setModal(!modal)
   }
 
+  useEffect(() => {
+    const caseID = props.caseId
+    setData({...data, case_id: caseID})
+  }, [data.first_name])
+
   // ** Function to add person to case
   const addPerson = () => {
+    console.log(data)
     if (data.first_name === "") {
       toast.error(`نام فرد را وارد کنید!`)
       return
@@ -77,23 +81,19 @@ const NewUser = (props) => {
       toast.error(`شماره همراه را وارد کنید!`)
       return
     }
-    if (data.education_field === "") {
-      toast.error(`رشته تحصیلی را وارد کنید!`)
+    if (data.family_role === null) {
+      toast.error(`نسبت فامیلی را وارد کنید!`)
       return
     }
-    if (data.education_location === "") {
-      toast.error(`محل تحصیل را وارد کنید!`)
-      return
-    }
-    console.log(data)
     setSpin({...spin, add: true})
     const panelServices = new PanelServices
-    panelServices.addPersonToCase(props.caseId, data)
+    panelServices.addPersonToCase(data)
     .then((res) => {
       setSpin({...spin, add: false})
       setPersonId(res.data.id)
       toast.success(`فرد با موفقیت اضافه شد!`)
-      props.getPersonsList()
+      console.log(props.caseId)
+      props.getPersonsList(props.caseId)
       setCreated(true)
     })
     .catch((err) => {
@@ -123,6 +123,29 @@ const NewUser = (props) => {
         autoClose: 4000
       })
     }
+  }
+
+  const newPerson = () => {
+    setData({
+      first_name: '',
+      last_name: '',
+      father_name: '',
+      birthday: '',
+      national_number: '',
+      phone_number: '',
+      is_leader: true,
+      education_field: '',
+      education_location: '',
+      case_id: '',
+      description: '',
+      family_role: null
+    })
+    setDate({
+      y: years[0],
+      m: month[0],
+      d: day[0]
+    })
+    setCreated(false)
   }
 
     return (
@@ -243,7 +266,7 @@ const NewUser = (props) => {
                 <Col md='6' sm='12'>
                   <FormGroup>
                     <Label for='fieldOfStudy'>رشته تحصیلی</Label>
-                    <Input value={data.education_field} onChange={(e) => { setData({...data, education_field: e.target.value}) }} type='text' name='fieldOfStudy' id='fieldOfStudy' placeholder='رشته تحصیل' />
+                    <Input value={data.education_field} onChange={(e) => { setData({...data, education_field: e.target.value}) }} type='text' name='fieldOfStudy' id='fieldOfStudy' placeholder='رشته تحصیلی' />
                   </FormGroup>
                 </Col>
                 <Col md='6' sm='12'>
@@ -251,6 +274,23 @@ const NewUser = (props) => {
                     <Label for='educationPlace'>محل تحصیل</Label>
                     <Input value={data.education_location} onChange={(e) => { setData({...data, education_location: e.target.value}) }} type='text' name='educationPlace' id='educationPlace' placeholder='محل تحصیل' />
                   </FormGroup>
+                </Col>
+                <Col md='6' sm='12'>
+                  <FormGroup>
+                    <Label for='educationPlace'>توضیحات</Label>
+                    <Input value={data.description} onChange={(e) => { setData({...data, description: e.target.value}) }} type='text' name='educationPlace' id='educationPlace' placeholder='توضیحات' />
+                  </FormGroup>
+                </Col>
+                <Col md='6' sm='12'>
+                  <Label>نسبت فامیلی</Label>
+                  <Select
+                    placeholder="نسبت فامیلی"
+                    className='react-select'
+                    classNamePrefix='select'
+                    onChange={(e) => { setData({...data, family_role: e.value}) }}
+                    options={familyRole}
+                    isClearable={false}
+                  />
                 </Col>
                 <Col sm='12'>
                   <div className='d-flex align-items-center mt-1'>
@@ -278,12 +318,22 @@ const NewUser = (props) => {
                   </Col>
                 </Fragment>            
                 }
-                {!created && 
+                {!created ?
                   <Col sm='12'>
                     <FormGroup className='d-flex justify-content-center w-100 mb-0'>
                       <div className='mb-2 mt-2'>
                         <Button.Ripple disabled={addBtnDisable} color='primary' onClick={() => { addPerson() }}>
                           {spin.addCase ? <Spinner size={'sm'} /> : "افزودن فرد به پرونده"}
+                        </Button.Ripple>
+                      </div>
+                    </FormGroup>
+                  </Col>
+                  :
+                  <Col sm='12'>
+                    <FormGroup className='d-flex justify-content-center w-100 mb-0'>
+                      <div className='mb-2 mt-2'>
+                        <Button.Ripple disabled={addBtnDisable} color='primary' onClick={() => { newPerson() }}>
+                          افزودن فرد جدید
                         </Button.Ripple>
                       </div>
                     </FormGroup>
