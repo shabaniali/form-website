@@ -5,6 +5,7 @@ import { HandleErrors } from '../../utility/Utils'
 import PersonsFileList from './PersonsFileList'
 import BlockUi from 'react-block-ui'
 import 'react-block-ui/dist/style.css'
+import moment from 'jalali-moment'
 
 const ViewFile = (props) => {
   const id = props.match.params.id
@@ -44,7 +45,7 @@ const ViewFile = (props) => {
             </div>
             <div className='d-flex align-items-center my-1'>
               <h5 className='mr-1 mb-0'>تاریخ ثبت پرونده:</h5>
-              <h5 className='mb-0'>{data.registration_date}</h5>
+              <h5 className='mb-0'>{data.registration_date && moment(data.registration_date, "YYYY-MM-DDTHH:mm:ss").format('jYYYY-jMM-jDD HH:mm:ss')}</h5>
             </div>
             <div className='form-label-group mt-1 mb-2 d-flex align-items-center'>
               <h5 className='mr-1 mb-0'>آدرس:</h5>

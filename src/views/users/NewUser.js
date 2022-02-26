@@ -31,7 +31,7 @@ const NewUser = (props) => {
     birthday: '',
     national_number: '',
     phone_number: '',
-    is_leader: 'false',
+    is_leader: true,
     education_field: '',
     education_location: ''
   })
@@ -53,6 +53,38 @@ const NewUser = (props) => {
 
   // ** Function to add person to case
   const addPerson = () => {
+    if (data.first_name === "") {
+      toast.error(`نام فرد را وارد کنید!`)
+      return
+    }
+    if (data.last_name === "") {
+      toast.error(`نام خانوادگی فرد را وارد کنید!`)
+      return
+    }
+    if (data.father_name === "") {
+      toast.error(`نام پدر را وارد کنید!`)
+      return
+    }
+    if (data.birthday === "") {
+      toast.error(`تاریخ تولد را وارد کنید!`)
+      return
+    }
+    if (data.national_number === "") {
+      toast.error(`کدملی را وارد کنید!`)
+      return
+    }
+    if (data.phone_number === "") {
+      toast.error(`شماره همراه را وارد کنید!`)
+      return
+    }
+    if (data.education_field === "") {
+      toast.error(`رشته تحصیلی را وارد کنید!`)
+      return
+    }
+    if (data.education_location === "") {
+      toast.error(`محل تحصیل را وارد کنید!`)
+      return
+    }
     console.log(data)
     setSpin({...spin, add: true})
     const panelServices = new PanelServices
@@ -77,7 +109,7 @@ const NewUser = (props) => {
       const Date = moment(
         `${year}/${month}/${day}`,
         'jYYYY/jMM/jDD'
-      ).format('YYYY-MM-DDTHH:mm:ss')
+      ).format('YYYY-MM-DD')
       setData({
         ...data,
         birthday: Date
@@ -210,7 +242,7 @@ const NewUser = (props) => {
                 </Col>
                 <Col md='6' sm='12'>
                   <FormGroup>
-                    <Label for='fieldOfStudy'>رشته تحصیل</Label>
+                    <Label for='fieldOfStudy'>رشته تحصیلی</Label>
                     <Input value={data.education_field} onChange={(e) => { setData({...data, education_field: e.target.value}) }} type='text' name='fieldOfStudy' id='fieldOfStudy' placeholder='رشته تحصیل' />
                   </FormGroup>
                 </Col>
@@ -220,14 +252,18 @@ const NewUser = (props) => {
                     <Input value={data.education_location} onChange={(e) => { setData({...data, education_location: e.target.value}) }} type='text' name='educationPlace' id='educationPlace' placeholder='محل تحصیل' />
                   </FormGroup>
                 </Col>
+                <Col sm='12'>
+                  <div className='d-flex align-items-center mt-1'>
+                    <FormGroup check inline>
+                      <Input onChange={() => { setData({...data, is_leader: !data.is_leader}) }} type='checkbox' defaultChecked id='basic-cb-checked' />
+                      <Label for='basic-cb-checked' check>
+                        سرپرست خانواده
+                      </Label>
+                    </FormGroup>
+                  </div>
+                </Col>
                 {created && 
                 <Fragment>
-                  <Col sm='12'>
-                    <div className='d-flex align-items-center mt-1'>
-                      <Label className='mr-1 mb-0' for='icon-primary'>سرپرست خانوده:</Label>
-                      <CustomInput type='switch' label={<CustomLabel />} id='icon-primary' name='icon-primary' inline defaultChecked />
-                    </div>
-                  </Col>
                   <Col sm='12' className='mt-2'>
                     <h6>سوابق کاری</h6>
                     <RepeatingForm placeholder='سابقه کاری'/>
