@@ -18,6 +18,23 @@ const EditFile = (props) => {
     status: '',
     editCase: false
   })
+  const [casePersons, setCasePersons] = useState([])
+
+  // ** Function to get persons of case
+  const getPersons = () => {
+    const panelServices = new PanelServices
+    panelServices.getAllCasePersons(id)
+    .then((res) => {
+      setCasePersons(res.data)
+    })
+    .catch((err) => {
+      HandleErrors(err)
+    })
+  }
+
+  const getPersonsList = () => { 
+    getPersons(data.id)
+  }
 
   // ** Function to get case data
   const getCase = () => {
@@ -50,6 +67,7 @@ const EditFile = (props) => {
 
   useEffect(() => {
     getCase()
+    getPersons()
   }, [])
 
   // ** Function to edit case
@@ -96,9 +114,9 @@ const EditFile = (props) => {
             </FormGroup>
             <Row>
               <Col className="mb-2" sm='12'>
-                <PersonsFileList />
+                <PersonsFileList getPersonsList={getPersons} data={casePersons} />
                 <div className='mb-1'>
-                  <NewUser />
+                  <NewUser caseId={data.id} getPersonsList={getPersonsList} caseNumber={data.number} />
                 </div>
               </Col>
             </Row>

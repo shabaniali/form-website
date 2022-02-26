@@ -97,5 +97,16 @@ export class PanelServices {
             })
         })
     }
+
+    deletePerson(id) {
+        return new Promise((resolve, reject) => {
+            this.api.delete(`/person/${id}`)
+            .then((result) => {
+                resolve(result)
+            }).catch((err) => {
+                reject(err)
+            })
+        })
+    }
 }
 

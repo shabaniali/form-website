@@ -13,6 +13,19 @@ const ViewFile = (props) => {
   // ** States
   const [data, setData] = useState({})
   const [spin, setSpin] = useState(true)
+  const [casePersons, setCasePersons] = useState([])
+
+  // ** Function to get persons of case
+  const getPersons = () => {
+    const panelServices = new PanelServices
+    panelServices.getAllCasePersons(id)
+    .then((res) => {
+      setCasePersons(res.data)
+    })
+    .catch((err) => {
+      HandleErrors(err)
+    })
+  }
 
   // ** Function to get case data
   const getCase = () => {
@@ -30,6 +43,7 @@ const ViewFile = (props) => {
 
   useEffect(() => {
     getCase()
+    getPersons()
   }, [])
 
 
@@ -51,7 +65,7 @@ const ViewFile = (props) => {
               <h5 className='mr-1 mb-0'>آدرس:</h5>
               <h5 className='mb-0'>{data.address}</h5>
             </div>
-            <PersonsFileList />
+            <PersonsFileList getPersonsList={getPersons} data={casePersons} />
           </Card>
         </Fragment>
       ) : (

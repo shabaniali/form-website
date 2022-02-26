@@ -1,7 +1,9 @@
-import React, { Fragment, useState } from 'react'
+import moment from 'jalali-moment'
+import React, { Fragment, useEffect, useState } from 'react'
 import DataTable from 'react-data-table-component'
 import { ChevronDown, Eye, Edit, Trash, X } from 'react-feather'
 import { useHistory } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import {
   Card,
   CardHeader,
@@ -13,128 +15,104 @@ import {
   Badge,
   ModalFooter
 } from 'reactstrap'
+import Spinner from 'reactstrap/lib/Spinner'
+import { PanelServices } from '../../services/panelService'
+import { HandleErrors } from '../../utility/Utils'
 
-// ** Table Data
-const data = [
-  {
-    id: 1,
-    fileId: 3938,
-    name: 'علی اصغر شعبانی',
-    fatherName: 'غلامرضا',
-    birthDay: '13/11/1376',
-    nationalId: '2560383063',
-    phoneNumber: '09332817811',
-    headOfHouse: true,
-    fieldOfStudy: 'مهندسی کامپیوتر',
-    educationPlace: 'سیرجان',
-    resume: [
-      {
-        id: 1,
-        title: 'سابقه کاری 1'
-      },
-      {
-        id: 2,
-        title: 'سابقه کاری 2'
-      },
-      {
-        id: 3,
-        title: 'سابقه کاری 3'
-      },
-      {
-        id: 4,
-        title: 'سابقه کاری 4'
-      }
-    ],
-    skills: [
-      {
-        id: 1,
-        title: 'مهارت 1'
-      },
-      {
-        id: 2,
-        title: 'مهارت 2'
-      },
-      {
-        id: 3,
-        title: 'مهارت 3'
-      },
-      {
-        id: 4,
-        title: 'مهارت 4'
-      }
-    ],
-    requirements: [
-      {
-        id: 1,
-        title: 'نیارمندی 1'
-      },
-      {
-        id: 2,
-        title: 'نیارمندی 2'
-      },
-      {
-        id: 3,
-        title: 'نیارمندی 3'
-      },
-      {
-        id: 4,
-        title: 'نیارمندی 4'
-      }
-    ]
-  }
-]
+const familyRole = {
+  0: { title: 'پدر'},
+  1: { title: 'مادر'},
+  2: { title: 'فرزند'}, 
+  3: { title: 'تعریف نسده'}
+}
 
-const PersonsFileList = () => {
+const PersonsFileList = (props) => {
+  // ** States
   const [deleteModal, setDeleteModal] = useState(false)
   const history = useHistory()
+
+  // ** Function to Delete a case
+  const DeletePerson = (id) => {
+    setDeleteModal('')
+    const panelServices = new PanelServices
+    panelServices.deletePerson(id)
+    .then((res) => {
+      toast.success(`فرد با موفقیت حذف شد!`)
+      props.getPersonsList()
+    })
+    .catch((err) => {
+      HandleErrors(err)
+    })
+  }
 
   // ** Table Columns
   const columns = [
     {
       name: 'ID',
-      selector: 'id',
       sortable: true,
-      minWidth: '70px'
+      minWidth: '70px',
+      cell: (row, index) => {
+        return (
+          <span>{index + 1}</span>
+        )
+      }
     },
     {
       name: 'نام',
-      selector: 'name',
       sortable: true,
-      minWidth: '140px'
+      minWidth: '140px',
+      cell: (row) => {
+        return (
+          <span>{row.first_name} {row.last_name}</span>
+        )
+      }
     },
     {
       name: 'نام پدر',
-      selector: 'fatherName',
+      selector: 'father_name',
       sortable: true,
-      minWidth: '140px'
+      minWidth: '130px'
+    },
+    {
+      name: 'نسبت فامیلی',
+      sortable: true,
+      minWidth: '140px',
+      cell: (row) => {
+        return (
+          <span>{familyRole[row.family_role].title}</span>
+        )
+      }
     },
     {
       name: 'تاریخ تولد',
-      selector: 'birthDay',
       sortable: true,
-      minWidth: '140px'
+      minWidth: '140px',
+      cell: (row) => {
+        return (
+          <span>{moment(row.birthday, 'YYYY-MM-DD').format('jYYYY/jMM/jDD')}</span>
+        )
+      }
     },
     {
       name: 'کد ملی',
-      selector: 'nationalId',
+      selector: 'national_number',
       sortable: true,
-      minWidth: '140px'
+      minWidth: '120px'
     },
     {
       name: 'شماره همراه',
-      selector: 'phoneNumber',
+      selector: 'phone_number',
       sortable: true,
-      minWidth: '140px'
+      minWidth: '125px'
     },
     {
       name: 'سرپرست خانواده',
-      selector: 'headOfHouse',
       sortable: true,
       minWidth: '150px',
       cell: row => {
         return (
           <React.Fragment>
-            {row.headOfHouse && 
+            {row.is_leader && 
             <Badge color={'light-success'} pill>
               سرپرست خانواده
             </Badge>}
@@ -149,24 +127,25 @@ const PersonsFileList = () => {
       cell: row => {
         return (
           <React.Fragment>
-            <Eye className='ml-1 cursor-pointer' size={18} onClick={() => { history.push('/panel/viewUser/1') }}/>
-            <Edit className='ml-1 cursor-pointer' size={18} onClick={() => { history.push('/panel/editUser/1') }}/>
-            <Trash className='ml-1 cursor-pointer' size={18} onClick={() => { setDeleteModal(true) }}/>
-            <Modal modalClassName={'modal-danger'} isOpen={deleteModal} toggle={() => setDeleteModal(!deleteModal)}>
-              <ModalHeader toggle={() => setDeleteModal(!deleteModal)}>حذف {row.name}</ModalHeader>
+            <Eye className='ml-1 cursor-pointer' size={18} onClick={() => { history.push(`/panel/viewUser/${row.id}`) }}/>
+            <Edit className='ml-1 cursor-pointer' size={18} onClick={() => { history.push(`/panel/editUser/${row.id}`) }}/>
+            <Trash className='ml-1 cursor-pointer' size={18} onClick={() => { setDeleteModal(row.id) }}/>
+            <Modal modalClassName={'modal-danger'} isOpen={deleteModal === row.id} toggle={() => setDeleteModal('')}>
+              <ModalHeader toggle={() => setDeleteModal('')}>حذف {row.first_name} {row.last_name}</ModalHeader>
               <ModalBody>
                 <div className='d-flex flex-column align-items-center'>
                   <div className='deleteModalIcon'>
                     <X size={39} strokeWidth={'1.5px'}/>
                   </div>
-                  <h4 className='mt-2'>آیا از حذف {row.name} اطمینان دارید؟</h4>
+                  <h4 className='mt-2'>آیا از حذف {row.first_name} {row.last_name} اطمینان دارید؟</h4>
+                </div>
+
+                <div className='d-flex justify-content-center my-2'>
+                  <Button color='danger' onClick={() => { DeletePerson(row.id) }}>
+                    حذف
+                  </Button>
                 </div>
               </ModalBody>
-              <ModalFooter className="justify-content-center">
-                <Button color='danger' onClick={() => setDeleteModal(!deleteModal)}>
-                  حذف
-                </Button>
-              </ModalFooter>
             </Modal>
           </React.Fragment>
         )
@@ -177,16 +156,18 @@ const PersonsFileList = () => {
   return (
     <Fragment>
       <Card>
-        <CardHeader CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom'>
-          <CardTitle tag='h4'>لیست افراد مشمول پرونده</CardTitle>
-        </CardHeader>
-        <DataTable
-          noHeader
-          data={data}
-          columns={columns}
-          className='react-dataTable'
-          sortIcon={<ChevronDown size={10} />}
-        />
+        <Fragment>
+          <CardHeader CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom'>
+            <CardTitle tag='h4'>لیست افراد مشمول پرونده</CardTitle>
+          </CardHeader>
+          <DataTable
+            noHeader
+            data={props.data}
+            columns={columns}
+            className='react-dataTable'
+            sortIcon={<ChevronDown size={10} />}
+          />
+        </Fragment>
       </Card>
     </Fragment>
   )

@@ -64,7 +64,7 @@ const NewFile = () => {
           {created && 
             <Fragment>
               {casePersons.length !== 0 ?
-                <PersonsFileList data={casePersons}/> :
+                <PersonsFileList getPersonsList={getPersons} data={casePersons} /> :
                 <h5 className='mt-2 mb-3'>لیست افراد مشمول پرونده خالی است.</h5>
               }
               <div className='mb-1'>
