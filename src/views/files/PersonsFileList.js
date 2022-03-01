@@ -1,5 +1,5 @@
 import moment from 'jalali-moment'
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import DataTable from 'react-data-table-component'
 import { ChevronDown, Eye, Edit, Trash, X } from 'react-feather'
 import { useHistory } from 'react-router-dom'
@@ -12,10 +12,8 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  Badge,
-  ModalFooter
+  Badge
 } from 'reactstrap'
-import Spinner from 'reactstrap/lib/Spinner'
 import { PanelServices } from '../../services/panelService'
 import { HandleErrors } from '../../utility/Utils'
 
@@ -37,7 +35,9 @@ const PersonsFileList = (props) => {
     const panelServices = new PanelServices
     panelServices.deletePerson(id)
     .then((res) => {
-      toast.success(`فرد با موفقیت حذف شد!`)
+      toast.success(`فرد با موفقیت حذف شد!`, {
+        autoClose: 2000
+      })
       props.getPersonsList()
     })
     .catch((err) => {

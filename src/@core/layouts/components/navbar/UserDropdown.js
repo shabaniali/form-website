@@ -16,7 +16,7 @@ const UserDropdown = () => {
     <UncontrolledDropdown tag='li' className='dropdown-user nav-item'>
       <DropdownToggle href='/' tag='a' className='nav-link dropdown-user-link' onClick={e => e.preventDefault()}>
         <div className='user-nav d-sm-flex d-none'>
-          <span className='user-name font-weight-bold'>ali.shabani7811@gmail.com</span>
+          <span className='user-name font-weight-bold'>form-website@gmail.com</span>
           <span className='user-status'>کاربر</span>
         </div>
         <Avatar img={Image} size='lg' />

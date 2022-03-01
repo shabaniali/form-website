@@ -1,10 +1,12 @@
-import { Fragment } from 'react'
-import { Button, FormGroup, Row, Col, Input, Form, Label, CustomInput } from 'reactstrap'
+import { Fragment, useEffect, useState } from 'react'
+import { Button, FormGroup, Row, Col, Input, Form, Label, CustomInput, Spinner } from 'reactstrap'
 import Select from 'react-select'
 import { Check, X } from 'react-feather'
 import {years, month, day} from '../../utility/Date'
 import RepeatingForm from '../../components/RepeatingForm'
 import Card from 'reactstrap/lib/Card'
+import { PanelServices } from '../../services/panelService'
+import { HandleErrors } from '../../utility/Utils'
 
 const CustomLabel = () => (
   <Fragment>
@@ -17,11 +19,54 @@ const CustomLabel = () => (
   </Fragment>
 )
 
-const EditUser = () => {
+const EditUser = (props) => {
+  const id = props.match.params.id
+
+  // ** States
+  const [data, setData] = useState({})
+  const [spin, setSpin] = useState({
+    page: true,
+    status: false,
+    editPerson: false
+  })
 
   const submit = (e) => {
     e.preventDefault()
   }
+
+  // ** Function to toggle leader
+  const Toggleleader = (id, type) => {
+    setSpin({...spin, status: true})
+    const panelServices = new PanelServices
+    panelServices.toggleLeader(id, type)
+    .then((res) => {
+      setSpin({...spin, status: false})
+      setData({...data, is_leader: !data.is_leader})
+    })
+    .catch((err) => {
+      setSpin({...spin, status: false})
+      HandleErrors(err)
+    })
+  }
+
+  // ** Function to get person
+  const GetPerson = () => {
+    const panelServices = new PanelServices
+    panelServices.getPerson(id)
+    .then((res) => {
+      setSpin({...spin, page: false})
+      console.log(res.data)
+      setData(res.data)
+    })
+    .catch((err) => {
+      setSpin({...spin, page: false})
+      HandleErrors(err)
+    })
+  }
+
+  useEffect(() => {
+    GetPerson()
+  }, [])
 
     return (
       <Fragment>
@@ -31,11 +76,23 @@ const EditUser = () => {
         <Card className={'p-1'}>
           <Form>
             <Row>
-              <Col sm='12'>
+              {/* <Col sm='12'>
                 <FormGroup>
                   <Label for='fileId'>شماره پرونده*</Label>
                   <Input type='text' disabled name='fileId' id='fileId' placeholder='شماره پرونده' />
                 </FormGroup>
+              </Col> */}
+              <Col sm='12'>
+                <div className='d-flex align-items-center mb-2 mt-1'>
+                  <Label className='mr-1 mb-0' for='icon-primary'>سرپرست خانوده:</Label>
+                  <Fragment>
+                    {data.is_leader ? 
+                      <Button.Ripple onClick={() => { Toggleleader(data.id, 'clear-leader') }} size={'sm'} color='success'>{spin.status ? <Spinner size={'sm'} /> : "می باشد."}</Button.Ripple>
+                      :
+                      <Button.Ripple onClick={() => { Toggleleader(data.id, 'set-leader') }} size={'sm'} color='danger'>{spin.status ? <Spinner size={'sm'} /> : "نمی باشد."}</Button.Ripple>
+                    }
+                  </Fragment>
+                </div>
               </Col>
               <Col md='6' sm='12'>
                 <FormGroup>
@@ -113,32 +170,26 @@ const EditUser = () => {
                   <Input type='text' name='educationPlace' id='educationPlace' placeholder='محل تحصیل' />
                 </FormGroup>
               </Col>
-              <Col sm='12' className='mt-2'>
-                <h6>سوابق کاری</h6>
-                <RepeatingForm placeholder='سابقه کاری'/>
-              </Col>
-              <Col sm='12' className='mt-2'>
-                <h6>مهارت ها</h6>
-                <RepeatingForm placeholder='مهارت'/>
-              </Col>
-              <Col sm='12' className='mt-2'>
-                <h6>نیازمندی ها</h6>
-                <RepeatingForm placeholder='نیازمندی'/>
-              </Col>
-              <Col sm='12'>
-                <div className='d-flex align-items-center mt-1'>
-                  <Label className='mr-1 mb-0' for='icon-primary'>سرپرست خانوده:</Label>
-                  <CustomInput type='switch' label={<CustomLabel />} id='icon-primary' name='icon-primary' inline defaultChecked />
-                </div>
-              </Col>
               <Col sm='12'>
                 <FormGroup className='d-flex justify-content-center w-100 mb-0'>
-                  <div className='mb-2 mt-3'>
+                  <div className='my-2'>
                     <Button.Ripple color='primary' onClick={(e) => { submit(e) }}>
                       ویرایش
                     </Button.Ripple>
                   </div>
                 </FormGroup>
+              </Col>
+              <Col sm='12' className='mb-2'>
+                <h6>سوابق کاری</h6>
+                <RepeatingForm placeholder='سابقه کاری'/>
+              </Col>
+              <Col sm='12' className='mt-3 mb-2'>
+                <h6>مهارت ها</h6>
+                <RepeatingForm placeholder='مهارت'/>
+              </Col>
+              <Col sm='12' className='mt-3 mb-2'>
+                <h6>نیازمندی ها</h6>
+                <RepeatingForm placeholder='نیازمندی'/>
               </Col>
             </Row>
           </Form>

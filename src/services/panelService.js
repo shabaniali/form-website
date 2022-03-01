@@ -45,7 +45,7 @@ export class PanelServices {
 
     changeStatus(id, type) {
         return new Promise((resolve, reject) => {
-            this.api.patch(`/case/${id}/${type}`)
+            this.api.post(`/case/${id}/${type}`)
             .then((result) => {
                 resolve(result)
             }).catch((err) => {
@@ -101,6 +101,39 @@ export class PanelServices {
     deletePerson(id) {
         return new Promise((resolve, reject) => {
             this.api.delete(`/person/${id}`)
+            .then((result) => {
+                resolve(result)
+            }).catch((err) => {
+                reject(err)
+            })
+        })
+    }
+
+    toggleLeader(id, type) {
+        return new Promise((resolve, reject) => {
+            this.api.post(`/person/${id}/${type}`)
+            .then((result) => {
+                resolve(result)
+            }).catch((err) => {
+                reject(err)
+            })
+        })
+    }
+
+    getPerson(id) {
+        return new Promise((resolve, reject) => {
+            this.api.get(`/person/${id}`)
+            .then((result) => {
+                resolve(result)
+            }).catch((err) => {
+                reject(err)
+            })
+        })
+    }
+
+    getAllPerson() {
+        return new Promise((resolve, reject) => {
+            this.api.get(`/person`)
             .then((result) => {
                 resolve(result)
             }).catch((err) => {

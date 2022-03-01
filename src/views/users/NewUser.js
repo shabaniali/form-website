@@ -58,31 +58,45 @@ const NewUser = (props) => {
   const addPerson = () => {
     console.log(data)
     if (data.first_name === "") {
-      toast.error(`نام فرد را وارد کنید!`)
+      toast.error(`نام فرد را وارد کنید!`, {
+        autoClose: 2000
+      })
       return
     }
     if (data.last_name === "") {
-      toast.error(`نام خانوادگی فرد را وارد کنید!`)
+      toast.error(`نام خانوادگی فرد را وارد کنید!`, {
+        autoClose: 2000
+      })
       return
     }
     if (data.father_name === "") {
-      toast.error(`نام پدر را وارد کنید!`)
+      toast.error(`نام پدر را وارد کنید!`, {
+        autoClose: 2000
+      })
       return
     }
     if (data.birthday === "") {
-      toast.error(`تاریخ تولد را وارد کنید!`)
+      toast.error(`تاریخ تولد را وارد کنید!`, {
+        autoClose: 2000
+      })
       return
     }
     if (data.national_number === "") {
-      toast.error(`کدملی را وارد کنید!`)
+      toast.error(`کدملی را وارد کنید!`, {
+        autoClose: 2000
+      })
       return
     }
     if (data.phone_number === "") {
-      toast.error(`شماره همراه را وارد کنید!`)
+      toast.error(`شماره همراه را وارد کنید!`, {
+        autoClose: 2000
+      })
       return
     }
     if (data.family_role === null) {
-      toast.error(`نسبت فامیلی را وارد کنید!`)
+      toast.error(`نسبت فامیلی را وارد کنید!`, {
+        autoClose: 2000
+      })
       return
     }
     setSpin({...spin, add: true})
@@ -91,7 +105,9 @@ const NewUser = (props) => {
     .then((res) => {
       setSpin({...spin, add: false})
       setPersonId(res.data.id)
-      toast.success(`فرد با موفقیت اضافه شد!`)
+      toast.success(`فرد با موفقیت اضافه شد!`, {
+        autoClose: 2000
+      })
       console.log(props.caseId)
       props.getPersonsList(props.caseId)
       setCreated(true)

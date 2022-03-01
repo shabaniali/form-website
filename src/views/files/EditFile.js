@@ -77,7 +77,9 @@ const EditFile = (props) => {
     panelServices.updateCase(data)
     .then((res) => {
       setSpin({...spin, editCase: false})
-      toast.success(`آدرس پرونده با موفقیت ویرایش شد!`)
+      toast.success(`آدرس پرونده با موفقیت ویرایش شد!`, {
+        autoClose: 2000
+      })
     })
     .catch((err) => {
       setSpin({...spin, editCase: false})

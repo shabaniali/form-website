@@ -40,11 +40,11 @@ const RepeatingForm = (props) => {
           <Plus size={14} />
           <span className='align-middle ml-25'>افزودن</span>
         </Button>
-        <Row>
+        {/* <Row>
           <Col sm={12}>
             <hr />
           </Col>
-        </Row>
+        </Row> */}
       </div>
   )
 }

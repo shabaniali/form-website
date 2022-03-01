@@ -10,7 +10,6 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter,
   Spinner
 } from 'reactstrap'
 import { toast } from 'react-toastify'
@@ -31,7 +30,6 @@ const Files = () => {
   const [listData, setListData] = useState([])
   const [spin, setSpin] = useState({
     list: true,
-    delete: false,
     status: ''
   })
 
@@ -69,7 +67,9 @@ const Files = () => {
   // ** Function to copy transaction hash
   const TextCopy = (text) => {
     navigator.clipboard.writeText(text)
-    toast.success("کپی شد!")
+    toast.success("کپی شد!", {
+      autoClose: 2000
+    })
   }
 
   // ** Function to get all cases
@@ -79,7 +79,6 @@ const Files = () => {
     .then((res) => {
       setSpin({...spin, list: false})
       setListData(res.data)
-      console.log(res.data)
     })
     .catch((err) => {
       setSpin({...spin, list: false})
@@ -98,6 +97,9 @@ const Files = () => {
     panelServices.changeStatus(id, type)
     .then((res) => {
       setSpin({...spin, status: ''})
+      toast.success(`وضعیت تغییر کرد!`, {
+        autoClose: 2000
+      })
       getCases()
     })
     .catch((err) => {
@@ -109,17 +111,15 @@ const Files = () => {
   // ** Function to Delete a case
   const DeleteCase = (id) => {
     setDeleteModal('')
-    setSpin({...spin, delete: true})
     const panelServices = new PanelServices
     panelServices.deleteCase(id)
     .then((res) => {
-      setSpin({...spin, delete: false})
-      toast.success(`پرونده با موفقیت حذف شد!`)
+      toast.success(`پرونده با موفقیت حذف شد!`, {
+        autoClose: 2000
+      })
       getCases()
-
     })
     .catch((err) => {
-      setSpin({...spin, delete: false})
       HandleErrors(err)
     })
   }

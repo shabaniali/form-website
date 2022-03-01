@@ -43,7 +43,9 @@ const NewFile = () => {
       setCreated(true)
       setCaseNumber(res.data.number)
       setCaseId(res.data.id)
-      toast.success(`پرونده با موفقیت ساخته شد!`)
+      toast.success(`پرونده با موفقیت ساخته شد!`, {
+        autoClose: 2000
+      })
       getPersons(res.data.id)
     })
     .catch((err) => {
