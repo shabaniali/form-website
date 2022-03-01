@@ -58,6 +58,9 @@ const EditFile = (props) => {
     .then((res) => {
       setSpin({...spin, status: ''})
       getCase()
+      toast.success(`وضعیت تغییر کرد!`, {
+        autoClose: 2000
+      })
     })
     .catch((err) => {
       setSpin({...spin, status: ''})

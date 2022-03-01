@@ -52,6 +52,9 @@ const EditUser = (props) => {
     .then((res) => {
       setSpin({...spin, status: false})
       setData({...data, is_leader: !data.is_leader})
+      toast.success(`وضعیت سرپرست خانواده تغییر کرد!`, {
+        autoClose: 2000
+      })
     })
     .catch((err) => {
       setSpin({...spin, status: false})

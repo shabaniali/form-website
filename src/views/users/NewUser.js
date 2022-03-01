@@ -318,22 +318,6 @@ const NewUser = (props) => {
                     </FormGroup>
                   </div>
                 </Col>
-                {created && 
-                <Fragment>
-                  <Col sm='12' className='mt-2'>
-                    <h6>سوابق کاری</h6>
-                    <RepeatingForm placeholder='سابقه کاری'/>
-                  </Col>
-                  <Col sm='12' className='mt-2'>
-                    <h6>مهارت ها</h6>
-                    <RepeatingForm placeholder='مهارت'/>
-                  </Col>
-                  <Col sm='12' className='mt-2'>
-                    <h6>نیازمندی ها</h6>
-                    <RepeatingForm placeholder='نیازمندی'/>
-                  </Col>
-                </Fragment>            
-                }
                 {!created ?
                   <Col sm='12'>
                     <FormGroup className='d-flex justify-content-center w-100 mb-0'>
@@ -354,6 +338,22 @@ const NewUser = (props) => {
                       </div>
                     </FormGroup>
                   </Col>
+                }
+                {created && 
+                <Fragment>
+                  <Col sm='12' className='mt-2'>
+                    <h6>سوابق کاری</h6>
+                    <RepeatingForm placeholder='سابقه کاری'/>
+                  </Col>
+                  <Col sm='12' className='mt-2'>
+                    <h6>مهارت ها</h6>
+                    <RepeatingForm placeholder='مهارت'/>
+                  </Col>
+                  <Col sm='12' className='mt-2'>
+                    <h6>نیازمندی ها</h6>
+                    <RepeatingForm placeholder='نیازمندی'/>
+                  </Col>
+                </Fragment>            
                 }
               </Row>
             </Form>
