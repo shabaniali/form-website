@@ -37,22 +37,6 @@ const Users = () => {
     status: ''
   })
 
-  // ** Function to Delete a case
-  const DeletePerson = (id) => {
-    setDeleteModal('')
-    const panelServices = new PanelServices 
-    panelServices.deletePerson(id)
-    .then((res) => {
-      toast.success(`فرد با موفقیت حذف شد!`, {
-        autoClose: 2000
-      })
-      props.getPersonsList()
-    })
-    .catch((err) => {
-      HandleErrors(err)
-    })
-  }
-
   // ** Function to get all cases
   const getPersons = () => {
     const panelServices = new PanelServices
@@ -85,6 +69,22 @@ const Users = () => {
     })
     .catch((err) => {
       setSpin({...spin, status: ''})
+      HandleErrors(err)
+    })
+  }
+
+  // ** Function to Delete a case
+  const DeletePerson = (id) => {
+    setDeleteModal('')
+    const panelServices = new PanelServices 
+    panelServices.deletePerson(id)
+    .then((res) => {
+      toast.success(`فرد با موفقیت حذف شد!`, {
+        autoClose: 2000
+      })
+      getPersons()
+    })
+    .catch((err) => {
       HandleErrors(err)
     })
   }

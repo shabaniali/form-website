@@ -141,5 +141,16 @@ export class PanelServices {
             })
         })
     }
+
+    updatePerson(data) {
+        return new Promise((resolve, reject) => {
+            this.api.put('/person', data)
+            .then((result) => {
+                resolve(result)
+            }).catch((err) => {
+                reject(err)
+            })
+        })
+    }
 }
 
