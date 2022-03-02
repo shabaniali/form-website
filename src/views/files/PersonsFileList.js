@@ -48,7 +48,7 @@ const PersonsFileList = (props) => {
   // ** Table Columns
   const columns = [
     {
-      name: 'ID',
+      name: '#',
       sortable: true,
       minWidth: '70px',
       cell: (row, index) => {
@@ -157,7 +157,7 @@ const PersonsFileList = (props) => {
     <Fragment>
       <Card>
         <Fragment>
-          <CardHeader CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom'>
+          <CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom'>
             <CardTitle tag='h4'>لیست افراد مشمول پرونده</CardTitle>
           </CardHeader>
           <DataTable

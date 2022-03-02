@@ -3,27 +3,35 @@ import React, { Fragment, useEffect, useState } from 'react'
 import BlockUi from 'react-block-ui'
 import 'react-block-ui/dist/style.css'
 import DataTable from 'react-data-table-component'
-import { ChevronDown, Trash, X } from 'react-feather'
-import { Row, Col, Card, Badge, CardHeader, CardTitle, Button, Modal, ModalHeader, ModalBody, ModalFooter, Spinner } from 'reactstrap'
+import { ChevronDown, Edit, Trash, X } from 'react-feather'
+import { Row, Col, Card, Badge, CardHeader, CardTitle, Button, Modal, ModalHeader, ModalBody, Spinner, Label, FormGroup, Input } from 'reactstrap'
 import { PanelServices } from '../../services/panelService'
 import { HandleErrors } from '../../utility/Utils'
 
 const resumeData = [
   {
     id: 1,
-    title: 'سابقه کاری 1'
+    title: 'سابقه کاری 1',
+    income: 'درآمد 1',
+    location: 'محل کار 1'
   },
   {
     id: 2,
-    title: 'سابقه کاری 2'
+    title: 'سابقه کاری 2',
+    income: 'درآمد 2',
+    location: 'محل کار 2'
   },
   {
     id: 3,
-    title: 'سابقه کاری 3'
+    title: 'سابقه کاری 3',
+    income: 'درآمد 3',
+    location: 'محل کار 3'
   },
   {
     id: 4,
-    title: 'سابقه کاری 4'
+    title: 'سابقه کاری 4',
+    income: 'درآمد 4',
+    location: 'محل کار 4'
   }
 ]
 
@@ -69,9 +77,12 @@ const ViewUser = (props) => {
   const id = props.match.params.id
 
   // ** States
-  const [resumeDeleteModal, setResumeDeleteModal] = useState(0)
-  const [skillDeleteModal, setSkillDeleteModal] = useState(0)
-  const [requirementDeleteModal, setRequirementDeleteModal] = useState(0)
+  const [resumeDeleteModal, setResumeDeleteModal] = useState('')
+  const [resumeEditModal, setResumeEditModal] = useState('')
+  const [skillDeleteModal, setSkillDeleteModal] = useState('')
+  const [skillEditModal, setSkillEditModal] = useState('')
+  const [requirementDeleteModal, setRequirementDeleteModal] = useState('')
+  const [requirementEditModal, setRequirementEditModal] = useState('')
   const [data, setData] = useState({})
   const [spin, setSpin] = useState({
     page: true
@@ -98,7 +109,7 @@ const ViewUser = (props) => {
 
   const resumeColumns = [
     {
-      name: 'ID',
+      name: '#',
       selector: 'id',
       sortable: true,
       minWidth: '70px'
@@ -110,15 +121,58 @@ const ViewUser = (props) => {
       minWidth: '140px'
     },
     {
+      name: 'درآمد',
+      selector: 'income',
+      sortable: true,
+      minWidth: '140px'
+    },
+    {
+      name: 'محل کار',
+      selector: 'location',
+      sortable: true,
+      minWidth: '140px'
+    },
+    {
       name: 'عملیات',
       allowOverflow: true,
       minWidth: '140px',
       cell: row => {
         return (
           <React.Fragment>
+            <Edit className='ml-1 cursor-pointer' size={18} onClick={() => { setResumeEditModal(row.id) }}/>
+            <Modal modalClassName={'modal-primary'} isOpen={resumeEditModal === row.id} toggle={() => setResumeEditModal('')}>
+              <ModalHeader toggle={() => setResumeEditModal('')}>ویرایش {row.title}</ModalHeader>
+              <ModalBody>
+                <Row>
+                  <Col xs={12}>
+                    <FormGroup>
+                      <Label for='jobTitle'>عنوان کار</Label>
+                      <Input type='text' name='jobTitle' id='jobTitle' placeholder='عنوان کار' />
+                    </FormGroup>
+                  </Col>
+                  <Col xs={12}>
+                    <FormGroup>
+                      <Label for='income'>درآمد</Label>
+                      <Input type='text' name='income' id='income' placeholder='درآمد' />
+                    </FormGroup>
+                  </Col>
+                  <Col xs={12}>
+                    <FormGroup>
+                      <Label for='location'>محل کار</Label>
+                      <Input type='text' name='location' id='location' placeholder='محل کار' />
+                    </FormGroup>
+                  </Col>
+                </Row>
+                <div className='d-flex justify-content-center'>
+                  <Button className='my-1 mx-auto' color='primary' onClick={() => setResumeEditModal('')}>
+                    ویرایش
+                  </Button>
+                </div>
+              </ModalBody>
+            </Modal>
             <Trash className='ml-1 cursor-pointer' size={18} onClick={() => { setResumeDeleteModal(row.id) }}/>
-            <Modal modalClassName={'modal-danger'} isOpen={resumeDeleteModal === row.id} toggle={() => setResumeDeleteModal(0)}>
-              <ModalHeader toggle={() => setResumeDeleteModal(0)}>حذف {row.title}</ModalHeader>
+            <Modal modalClassName={'modal-danger'} isOpen={resumeDeleteModal === row.id} toggle={() => setResumeDeleteModal('')}>
+              <ModalHeader toggle={() => setResumeDeleteModal('')}>حذف {row.title}</ModalHeader>
               <ModalBody>
                 <div className='d-flex flex-column align-items-center'>
                   <div className='deleteModalIcon'>
@@ -126,12 +180,12 @@ const ViewUser = (props) => {
                   </div>
                   <h4 className='mt-2'>آیا از حذف {row.title} اطمینان دارید؟</h4>
                 </div>
+                <div className='d-flex justify-content-center'> 
+                  <Button className="my-2" color='danger' onClick={() => setResumeDeleteModal('')}>
+                    حذف
+                  </Button>
+                </div>
               </ModalBody>
-              <ModalFooter className="justify-content-center">
-                <Button color='danger' onClick={() => setResumeDeleteModal(0)}>
-                  حذف
-                </Button>
-              </ModalFooter>
             </Modal>
           </React.Fragment>
         )
@@ -141,7 +195,7 @@ const ViewUser = (props) => {
 
   const skillsColumns = [
     {
-      name: 'ID',
+      name: '#',
       selector: 'id',
       sortable: true,
       minWidth: '70px'
@@ -159,9 +213,28 @@ const ViewUser = (props) => {
       cell: row => {
         return (
           <React.Fragment>
+            <Edit className='ml-1 cursor-pointer' size={18} onClick={() => { setSkillEditModal(row.id) }}/>
+            <Modal modalClassName={'modal-primary'} isOpen={skillEditModal === row.id} toggle={() => setSkillEditModal('')}>
+              <ModalHeader toggle={() => setSkillEditModal('')}>ویرایش {row.title}</ModalHeader>
+              <ModalBody>
+                <Row>
+                  <Col xs={12}>
+                    <FormGroup>
+                      <Label for='skill'>عنوان مهارت</Label>
+                      <Input type='text' name='skill' id='skill' placeholder='عنوان مهارت' />
+                    </FormGroup>
+                  </Col>
+                </Row>
+                <div className='d-flex justify-content-center'>
+                  <Button className='my-1 mx-auto' color='primary' onClick={() => setSkillEditModal('')}>
+                    ویرایش
+                  </Button>
+                </div>
+              </ModalBody>
+            </Modal>
             <Trash className='ml-1 cursor-pointer' size={18} onClick={() => { setSkillDeleteModal(row.id) }}/>
-            <Modal modalClassName={'modal-danger'} isOpen={skillDeleteModal === row.id} toggle={() => setSkillDeleteModal(0)}>
-              <ModalHeader toggle={() => setSkillDeleteModal(0)}>حذف {row.title}</ModalHeader>
+            <Modal modalClassName={'modal-danger'} isOpen={skillDeleteModal === row.id} toggle={() => setSkillDeleteModal('')}>
+              <ModalHeader toggle={() => setSkillDeleteModal('')}>حذف {row.title}</ModalHeader>
               <ModalBody>
                 <div className='d-flex flex-column align-items-center'>
                   <div className='deleteModalIcon'>
@@ -170,11 +243,11 @@ const ViewUser = (props) => {
                   <h4 className='mt-2'>آیا از حذف {row.title} اطمینان دارید؟</h4>
                 </div>
               </ModalBody>
-              <ModalFooter className="justify-content-center">
-                <Button color='danger' onClick={() => setSkillDeleteModal(0)}>
+              <div className='d-flex justify-content-center'> 
+                <Button className="my-2" color='danger' onClick={() => setSkillDeleteModal('')}>
                   حذف
                 </Button>
-              </ModalFooter>
+              </div>
             </Modal>
           </React.Fragment>
         )
@@ -184,7 +257,7 @@ const ViewUser = (props) => {
 
   const requirementsColumns = [
     {
-      name: 'ID',
+      name: '#',
       selector: 'id',
       sortable: true,
       minWidth: '70px'
@@ -202,9 +275,28 @@ const ViewUser = (props) => {
       cell: row => {
         return (
           <React.Fragment>
+            <Edit className='ml-1 cursor-pointer' size={18} onClick={() => { setRequirementEditModal(row.id) }}/>
+            <Modal modalClassName={'modal-primary'} isOpen={requirementEditModal === row.id} toggle={() => setRequirementEditModal('')}>
+              <ModalHeader toggle={() => setRequirementEditModal('')}>ویرایش {row.title}</ModalHeader>
+              <ModalBody>
+                <Row>
+                  <Col xs={12}>
+                    <FormGroup>
+                      <Label for='Requirement'>عنوان نیازمندی</Label>
+                      <Input type='text' name='Requirement' id='Requirement' placeholder='عنوان نیازمندی' />
+                    </FormGroup>
+                  </Col>
+                </Row>
+                <div className='d-flex justify-content-center'>
+                  <Button className='my-1 mx-auto' color='primary' onClick={() => setRequirementEditModal('')}>
+                    ویرایش
+                  </Button>
+                </div>
+              </ModalBody>
+            </Modal>
             <Trash className='ml-1 cursor-pointer' size={18} onClick={() => { setRequirementDeleteModal(row.id) }}/>
-            <Modal modalClassName={'modal-danger'} isOpen={requirementDeleteModal === row.id} toggle={() => setRequirementDeleteModal(0)}>
-              <ModalHeader toggle={() => setRequirementDeleteModal(0)}>حذف {row.title}</ModalHeader>
+            <Modal modalClassName={'modal-danger'} isOpen={requirementDeleteModal === row.id} toggle={() => setRequirementDeleteModal('')}>
+              <ModalHeader toggle={() => setRequirementDeleteModal('')}>حذف {row.title}</ModalHeader>
               <ModalBody>
                 <div className='d-flex flex-column align-items-center'>
                   <div className='deleteModalIcon'>
@@ -213,11 +305,11 @@ const ViewUser = (props) => {
                   <h4 className='mt-2'>آیا از حذف {row.title} اطمینان دارید؟</h4>
                 </div>
               </ModalBody>
-              <ModalFooter className="justify-content-center">
-                <Button color='danger' onClick={() => setRequirementDeleteModal(0)}>
+              <div className='d-flex justify-content-center'>
+                <Button className="my-2" color='danger' onClick={() => setRequirementDeleteModal('')}>
                   حذف
                 </Button>
-              </ModalFooter>
+              </div>
             </Modal>
           </React.Fragment>
         )
@@ -307,7 +399,7 @@ const ViewUser = (props) => {
             </Row>
           </Card>
           <Card>
-            <CardHeader CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom'>
+            <CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom'>
               <CardTitle tag='h4'>سوابق کاری</CardTitle>
             </CardHeader>
             <DataTable
@@ -319,7 +411,7 @@ const ViewUser = (props) => {
             />
           </Card>
           <Card>
-            <CardHeader CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom'>
+            <CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom'>
               <CardTitle tag='h4'>مهارت ها</CardTitle>
             </CardHeader>
             <DataTable
@@ -331,7 +423,7 @@ const ViewUser = (props) => {
             />
           </Card>
           <Card>
-            <CardHeader CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom'>
+            <CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom'>
               <CardTitle tag='h4'>نیازمندی ها</CardTitle>
             </CardHeader>
             <DataTable
@@ -346,7 +438,7 @@ const ViewUser = (props) => {
       ) : (
           <BlockUi
             className="spinnerContainer"
-            blocking={spin.list}
+            blocking={spin.page}
             loader={<Spinner color="primary" />}
           ></BlockUi>
         )

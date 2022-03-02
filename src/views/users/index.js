@@ -125,7 +125,7 @@ const Users = () => {
   // ** Table Columns
   const columns = [
     {
-      name: 'ID',
+      name: '#',
       sortable: true,
       minWidth: '70px',
       cell: (row, index) => {
@@ -235,7 +235,7 @@ const Users = () => {
     <Fragment>
       {!spin.list ? (
       <Card>
-        <CardHeader CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom'>
+        <CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom'>
           <CardTitle tag='h4'>لیست افراد</CardTitle>
         </CardHeader>
         <DataTable

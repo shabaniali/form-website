@@ -75,6 +75,12 @@ const EditFile = (props) => {
 
   // ** Function to edit case
   const EditCase = () => {
+    if (data.address === "") {
+      toast.error(`آدرس پرونده را وارد کنید!`, {
+        autoClose: 2000
+      })
+      return
+    }
     setSpin({...spin, editCase: true})
     const panelServices = new PanelServices
     panelServices.updateCase(data)

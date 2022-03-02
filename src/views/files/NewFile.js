@@ -35,6 +35,12 @@ const NewFile = () => {
 
   // ** Function to create a case
   const createCase = () => {
+    if (data.address === "") {
+      toast.error(`آدرس پرونده را وارد کنید!`, {
+        autoClose: 2000
+      })
+      return
+    }
     setSpin({...spin, addCase: true})
     const panelServices = new PanelServices
     panelServices.addCase(data)

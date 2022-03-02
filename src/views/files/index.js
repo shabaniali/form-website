@@ -236,7 +236,7 @@ const Files = () => {
     {!spin.list ? (
       <Fragment>
         <Card>
-          <CardHeader CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom'>
+          <CardHeader className='flex-md-row flex-column align-md-items-center align-items-start border-bottom'>
             <CardTitle tag='h4'>لیست پرونده ها</CardTitle>
             <div className='d-flex mt-md-0 mt-1'>
               <Button color='primary' onClick={() => { history.push('/panel/newfile') }}>

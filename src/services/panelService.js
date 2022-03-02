@@ -152,5 +152,71 @@ export class PanelServices {
             })
         })
     }
+
+    addJob(data) {
+        return new Promise((resolve, reject) => {
+            this.api.post('/person-job', data)
+            .then((result) => {
+                resolve(result)
+            }).catch((err) => {
+                reject(err)
+            })
+        })
+    }
+
+    getAllJobs(id) {
+        return new Promise((resolve, reject) => {
+            this.api.get(`/person-job/${id}`)
+            .then((result) => {
+                resolve(result)
+            }).catch((err) => {
+                reject(err)
+            })
+        })
+    }
+
+    addSkill(data) {
+        return new Promise((resolve, reject) => {
+            this.api.post('/person-skill', data)
+            .then((result) => {
+                resolve(result)
+            }).catch((err) => {
+                reject(err)
+            })
+        })
+    }
+
+    getAllSkills(id) {
+        return new Promise((resolve, reject) => {
+            this.api.get(`/person-skill/${id}`)
+            .then((result) => {
+                resolve(result)
+            }).catch((err) => {
+                reject(err)
+            })
+        })
+    }
+
+    addRequirement(data) {
+        return new Promise((resolve, reject) => {
+            this.api.post('/person-requirement', data)
+            .then((result) => {
+                resolve(result)
+            }).catch((err) => {
+                reject(err)
+            })
+        })
+    }
+
+    getAllRequirements(id) {
+        return new Promise((resolve, reject) => {
+            this.api.get(`/person-requirement/${id}`)
+            .then((result) => {
+                resolve(result)
+            }).catch((err) => {
+                reject(err)
+            })
+        })
+    }
 }
 
