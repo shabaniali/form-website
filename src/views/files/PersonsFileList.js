@@ -21,7 +21,7 @@ const familyRole = {
   0: { title: 'پدر'},
   1: { title: 'مادر'},
   2: { title: 'فرزند'}, 
-  3: { title: 'تعریف نسده'}
+  3: { title: 'تعریف نشده'}
 }
 
 const PersonsFileList = (props) => {

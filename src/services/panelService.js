@@ -164,9 +164,31 @@ export class PanelServices {
         })
     }
 
+    updateJob(data) {
+        return new Promise((resolve, reject) => {
+            this.api.put('/person-job', data)
+            .then((result) => {
+                resolve(result)
+            }).catch((err) => {
+                reject(err)
+            })
+        })
+    }
+
+    deleteJob(id) {
+        return new Promise((resolve, reject) => {
+            this.api.delete(`/person-job/${id}`)
+            .then((result) => {
+                resolve(result)
+            }).catch((err) => {
+                reject(err)
+            })
+        })
+    }
+
     getAllJobs(id) {
         return new Promise((resolve, reject) => {
-            this.api.get(`/person-job/${id}`)
+            this.api.get(`/person/${id}/job`)
             .then((result) => {
                 resolve(result)
             }).catch((err) => {
@@ -186,9 +208,31 @@ export class PanelServices {
         })
     }
 
+    updateSkill(data) {
+        return new Promise((resolve, reject) => {
+            this.api.put('/person-skill', data)
+            .then((result) => {
+                resolve(result)
+            }).catch((err) => {
+                reject(err)
+            })
+        })
+    }
+
+    deleteSkill(id) {
+        return new Promise((resolve, reject) => {
+            this.api.delete(`/person-skill/${id}`)
+            .then((result) => {
+                resolve(result)
+            }).catch((err) => {
+                reject(err)
+            })
+        })
+    }
+
     getAllSkills(id) {
         return new Promise((resolve, reject) => {
-            this.api.get(`/person-skill/${id}`)
+            this.api.get(`/person/${id}/skill`)
             .then((result) => {
                 resolve(result)
             }).catch((err) => {
@@ -208,9 +252,31 @@ export class PanelServices {
         })
     }
 
+    updateRequirement(data) {
+        return new Promise((resolve, reject) => {
+            this.api.put('/person-requirement', data)
+            .then((result) => {
+                resolve(result)
+            }).catch((err) => {
+                reject(err)
+            })
+        })
+    }
+
+    deleteRequirement(id) {
+        return new Promise((resolve, reject) => {
+            this.api.delete(`/person-requirement/${id}`)
+            .then((result) => {
+                resolve(result)
+            }).catch((err) => {
+                reject(err)
+            })
+        })
+    }
+
     getAllRequirements(id) {
         return new Promise((resolve, reject) => {
-            this.api.get(`/person-requirement/${id}`)
+            this.api.get(`/person/${id}/requirement`)
             .then((result) => {
                 resolve(result)
             }).catch((err) => {

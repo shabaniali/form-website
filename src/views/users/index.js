@@ -23,7 +23,7 @@ const familyRole = {
   0: { title: 'پدر'},
   1: { title: 'مادر'},
   2: { title: 'فرزند'}, 
-  3: { title: 'تعریف نسده'}
+  3: { title: 'تعریف نشده'}
 }
 
 const Users = () => {
@@ -153,7 +153,7 @@ const Users = () => {
     {
       name: 'نسبت فامیلی',
       sortable: true,
-      minWidth: '140px',
+      minWidth: '130px',
       cell: (row) => {
         return (
           <span>{familyRole[row.family_role].title}</span>
