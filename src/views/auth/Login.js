@@ -29,14 +29,14 @@ const Login = () => {
 
   const submit = (e) => {
     e.preventDefault()
-    jwt.setToken("test-token-eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImp0aSI6IjRmMWcyM2ExMmFhIn0.")
-    dispatch(handleLogin({
-      email: "ali.shabani7811@gmail.com",
-      id: 9332817811,
-      username: "ali.shabani7811@gmail.com",
-      role: 'user'
-    }))
-    history.replace('/panel/files')
+    // jwt.setToken("test-token-eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImp0aSI6IjRmMWcyM2ExMmFhIn0.")
+    // dispatch(handleLogin({
+    //   email: "ali.shabani7811@gmail.com",
+    //   id: 9332817811,
+    //   username: "ali.shabani7811@gmail.com",
+    //   role: 'user'
+    // }))
+    // history.replace('/panel/files')
   }
   return (
     <div className='auth-wrapper auth-v1 px-2'>

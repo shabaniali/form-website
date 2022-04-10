@@ -29,7 +29,7 @@ const Router = () => {
   const [transition, setTransition] = useRouterTransition()
   const userData = useSelector(state => state.auth.userData, shallowEqual)
 
-  const [defaultRoute, setDefaultRoute] = useState('/')
+  const [defaultRoute, setDefaultRoute] = useState('/panel/files')
 
 
   useEffect(() => {

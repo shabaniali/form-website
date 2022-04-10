@@ -8,14 +8,14 @@ const TemplateTitle = 'FormWebsite'
 // ** Merge Routes
 const Routes = [
   ...authRoutes,
-  {
-    path: '/panel',
-    component: lazy(() => import('../../views/dashboard/index')),
-    exact: true,
-    meta: {
-      role: ['user']
-    }
-  },
+  // {
+  //   path: '/panel',
+  //   component: lazy(() => import('../../views/dashboard/index')),
+  //   exact: true,
+  //   meta: {
+  //     role: ['user']
+  //   }
+  // },
   {
     path: '/panel/files',
     component: lazy(() => import('../../views/files')),
