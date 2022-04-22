@@ -22,6 +22,7 @@ import 'react-block-ui/dist/style.css'
 import Moment from 'jalali-moment'
 
 const Files = () => {
+  console.log('1')
   const history = useHistory()
 
   // ** States
