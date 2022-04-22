@@ -21,7 +21,6 @@ const UserDropdown = () => {
       .then((res) => {
         localStorage.removeItem('accessToken')
         localStorage.removeItem('refreshToken')
-        localStorage.removeItem('userData')
         window.location.href = '/auth/login'
       })
       .catch((err) => {
