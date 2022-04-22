@@ -11,6 +11,7 @@ import {useDispatch} from 'react-redux'
 import {handleLogin} from './../../redux/actions/auth/index'
 import DarkLogo from './../../assets/images/logo/logo-2.png'
 import LightLogo from './../../assets/images/logo/logo.png'
+import { AuthService } from '../../services/authServic'
 
 const Login = () => {
   const history = useHistory()
@@ -27,8 +28,17 @@ const Login = () => {
     localStorage.setItem('isRTL', true)
   }, [])
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault()
+    const authService = new AuthService()
+    try {
+      const loginResponse = await authService.login(data.userName, data.password).then(result => result.data)    
+      jwt.setToken(loginResponse.access_token)
+      jwt.setRefreshToken(loginResponse.refresh_token)
+      history.replace('/panel/files')
+    } catch (error) {
+      console.log(error)
+    }
     // jwt.setToken("test-token-eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImp0aSI6IjRmMWcyM2ExMmFhIn0.")
     // dispatch(handleLogin({
     //   email: "ali.shabani7811@gmail.com",

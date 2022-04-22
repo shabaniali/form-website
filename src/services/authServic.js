@@ -13,7 +13,7 @@ export class AuthService {
 
     login(username, password) {
         return new Promise((resolve, reject) => {
-            this.api.post('/panel/site/login', {
+            this.api.post('/auth/login', {
                 username,
                 password
             })
