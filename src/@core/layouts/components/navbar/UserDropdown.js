@@ -10,12 +10,23 @@ import { User, Power } from 'react-feather'
 // import Gravatar from 'react-gravatar'
 import Avatar from '@components/avatar'
 import Image from './../../../../assets/images/avatars/2.png'
+import { AuthService } from '../../../../services/authServic'
 
 const UserDropdown = () => {
+
   const logout = () => {
-    localStorage.removeItem('accessToken')
-    localStorage.removeItem('userData')
-    window.location.href = '/auth/login'
+    const authService = new AuthService()
+    authService
+      .logout()
+      .then((res) => {
+        localStorage.removeItem('accessToken')
+        localStorage.removeItem('refreshToken')
+        localStorage.removeItem('userData')
+        window.location.href = '/auth/login'
+      })
+      .catch((err) => {
+        HandleErrors(err)
+      })
   }
 
   return (

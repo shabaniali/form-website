@@ -66,12 +66,12 @@ const Files = () => {
   // )
 
   // ** Function to copy transaction hash
-  const TextCopy = (text) => {
-    navigator.clipboard.writeText(text)
-    toast.success('کپی شد!', {
-      autoClose: 2000
-    })
-  }
+  // const TextCopy = (text) => {
+  //   navigator.clipboard.writeText(text)
+  //   toast.success('کپی شد!', {
+  //     autoClose: 2000
+  //   })
+  // }
 
   // ** Function to get all cases
   const getCases = () => {

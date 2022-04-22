@@ -57,9 +57,9 @@ const Login = () => {
     // jwt.setToken("test-token-eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImp0aSI6IjRmMWcyM2ExMmFhIn0.")
     dispatch(
       handleLogin({
-        email: '1',
-        id: 1,
-        username: '1',
+        email: '',
+        id: '',
+        username: '',
         role: 'user'
       })
     )
