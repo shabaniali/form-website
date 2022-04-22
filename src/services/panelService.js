@@ -1,31 +1,18 @@
-import axios from 'axios'
-import { requestConfig, responseConfig } from '@configs/axiosConfig.js'
+import { API } from '@configs/axiosConfig.js'
 
 export class PanelServices {
   constructor() {
-    this.UnauthorizedErrorHandler = () => {
-      localStorage.removeItem('accessToken')
-      localStorage.removeItem('userData')
-      window.location.href = '/auth/login'
-    }
-
-    this.api = axios.create({
-      baseURL: `${window.env.base_url}`
-    })
-    this.api.interceptors.request.use(requestConfig)
+    
   }
 
   addCase(address) {
     return new Promise((resolve, reject) => {
-      this.api
+      API
         .post('/case', address)
         .then((result) => {
           resolve(result)
         })
         .catch((err) => {
-          if (err.response.status === 401) {
-            this.UnauthorizedErrorHandler()
-          }
           reject(err)
         })
     })
@@ -33,15 +20,12 @@ export class PanelServices {
 
   getCase(id) {
     return new Promise((resolve, reject) => {
-      this.api
+      API
         .get(`/case/${id}`)
         .then((result) => {
           resolve(result)
         })
         .catch((err) => {
-          if (err.response.status === 401) {
-            this.UnauthorizedErrorHandler()
-          }
           reject(err)
         })
     })
@@ -49,15 +33,12 @@ export class PanelServices {
 
   getAllCases() {
     return new Promise((resolve, reject) => {
-      this.api
+      API
         .get('/case')
         .then((result) => {
           resolve(result)
         })
         .catch((err) => {
-          if (err.response.status === 401) {
-            this.UnauthorizedErrorHandler()
-          }
           reject(err)
         })
     })
@@ -65,15 +46,12 @@ export class PanelServices {
 
   changeStatus(id, type) {
     return new Promise((resolve, reject) => {
-      this.api
+      API
         .post(`/case/${id}/${type}`)
         .then((result) => {
           resolve(result)
         })
         .catch((err) => {
-          if (err.response.status === 401) {
-            this.UnauthorizedErrorHandler()
-          }
           reject(err)
         })
     })
@@ -81,15 +59,12 @@ export class PanelServices {
 
   deleteCase(id) {
     return new Promise((resolve, reject) => {
-      this.api
+      API
         .delete(`/case/${id}`)
         .then((result) => {
           resolve(result)
         })
         .catch((err) => {
-          if (err.response.status === 401) {
-            this.UnauthorizedErrorHandler()
-          }
           reject(err)
         })
     })
@@ -97,15 +72,12 @@ export class PanelServices {
 
   updateCase(data) {
     return new Promise((resolve, reject) => {
-      this.api
+      API
         .put('/case', data)
         .then((result) => {
           resolve(result)
         })
         .catch((err) => {
-          if (err.response.status === 401) {
-            this.UnauthorizedErrorHandler()
-          }
           reject(err)
         })
     })
@@ -113,15 +85,12 @@ export class PanelServices {
 
   getAllCasePersons(id) {
     return new Promise((resolve, reject) => {
-      this.api
+      API
         .get(`/case/${id}/person`)
         .then((result) => {
           resolve(result)
         })
         .catch((err) => {
-          if (err.response.status === 401) {
-            this.UnauthorizedErrorHandler()
-          }
           reject(err)
         })
     })
@@ -129,15 +98,12 @@ export class PanelServices {
 
   addPersonToCase(data) {
     return new Promise((resolve, reject) => {
-      this.api
+      API
         .post(`/person`, data)
         .then((result) => {
           resolve(result)
         })
         .catch((err) => {
-          if (err.response.status === 401) {
-            this.UnauthorizedErrorHandler()
-          }
           reject(err)
         })
     })
@@ -145,15 +111,12 @@ export class PanelServices {
 
   deletePerson(id) {
     return new Promise((resolve, reject) => {
-      this.api
+      API
         .delete(`/person/${id}`)
         .then((result) => {
           resolve(result)
         })
         .catch((err) => {
-          if (err.response.status === 401) {
-            this.UnauthorizedErrorHandler()
-          }
           reject(err)
         })
     })
@@ -161,15 +124,12 @@ export class PanelServices {
 
   toggleLeader(id, type) {
     return new Promise((resolve, reject) => {
-      this.api
+      API
         .post(`/person/${id}/${type}`)
         .then((result) => {
           resolve(result)
         })
         .catch((err) => {
-          if (err.response.status === 401) {
-            this.UnauthorizedErrorHandler()
-          }
           reject(err)
         })
     })
@@ -177,15 +137,12 @@ export class PanelServices {
 
   getPerson(id) {
     return new Promise((resolve, reject) => {
-      this.api
+      API
         .get(`/person/${id}`)
         .then((result) => {
           resolve(result)
         })
         .catch((err) => {
-          if (err.response.status === 401) {
-            this.UnauthorizedErrorHandler()
-          }
           reject(err)
         })
     })
@@ -193,15 +150,12 @@ export class PanelServices {
 
   getAllPerson() {
     return new Promise((resolve, reject) => {
-      this.api
+      API
         .get(`/person`)
         .then((result) => {
           resolve(result)
         })
         .catch((err) => {
-          if (err.response.status === 401) {
-            this.UnauthorizedErrorHandler()
-          }
           reject(err)
         })
     })
@@ -209,15 +163,12 @@ export class PanelServices {
 
   updatePerson(data) {
     return new Promise((resolve, reject) => {
-      this.api
+      API
         .put('/person', data)
         .then((result) => {
           resolve(result)
         })
         .catch((err) => {
-          if (err.response.status === 401) {
-            this.UnauthorizedErrorHandler()
-          }
           reject(err)
         })
     })
@@ -225,15 +176,12 @@ export class PanelServices {
 
   addJob(data) {
     return new Promise((resolve, reject) => {
-      this.api
+      API
         .post('/person-job', data)
         .then((result) => {
           resolve(result)
         })
         .catch((err) => {
-          if (err.response.status === 401) {
-            this.UnauthorizedErrorHandler()
-          }
           reject(err)
         })
     })
@@ -241,15 +189,12 @@ export class PanelServices {
 
   updateJob(data) {
     return new Promise((resolve, reject) => {
-      this.api
+      API
         .put('/person-job', data)
         .then((result) => {
           resolve(result)
         })
         .catch((err) => {
-          if (err.response.status === 401) {
-            this.UnauthorizedErrorHandler()
-          }
           reject(err)
         })
     })
@@ -257,15 +202,12 @@ export class PanelServices {
 
   deleteJob(id) {
     return new Promise((resolve, reject) => {
-      this.api
+      API
         .delete(`/person-job/${id}`)
         .then((result) => {
           resolve(result)
         })
         .catch((err) => {
-          if (err.response.status === 401) {
-            this.UnauthorizedErrorHandler()
-          }
           reject(err)
         })
     })
@@ -273,15 +215,12 @@ export class PanelServices {
 
   getAllJobs(id) {
     return new Promise((resolve, reject) => {
-      this.api
+      API
         .get(`/person/${id}/job`)
         .then((result) => {
           resolve(result)
         })
         .catch((err) => {
-          if (err.response.status === 401) {
-            this.UnauthorizedErrorHandler()
-          }
           reject(err)
         })
     })
@@ -289,15 +228,12 @@ export class PanelServices {
 
   addSkill(data) {
     return new Promise((resolve, reject) => {
-      this.api
+      API
         .post('/person-skill', data)
         .then((result) => {
           resolve(result)
         })
         .catch((err) => {
-          if (err.response.status === 401) {
-            this.UnauthorizedErrorHandler()
-          }
           reject(err)
         })
     })
@@ -305,15 +241,12 @@ export class PanelServices {
 
   updateSkill(data) {
     return new Promise((resolve, reject) => {
-      this.api
+      API
         .put('/person-skill', data)
         .then((result) => {
           resolve(result)
         })
         .catch((err) => {
-          if (err.response.status === 401) {
-            this.UnauthorizedErrorHandler()
-          }
           reject(err)
         })
     })
@@ -321,15 +254,12 @@ export class PanelServices {
 
   deleteSkill(id) {
     return new Promise((resolve, reject) => {
-      this.api
+      API
         .delete(`/person-skill/${id}`)
         .then((result) => {
           resolve(result)
         })
         .catch((err) => {
-          if (err.response.status === 401) {
-            this.UnauthorizedErrorHandler()
-          }
           reject(err)
         })
     })
@@ -337,15 +267,12 @@ export class PanelServices {
 
   getAllSkills(id) {
     return new Promise((resolve, reject) => {
-      this.api
+      API
         .get(`/person/${id}/skill`)
         .then((result) => {
           resolve(result)
         })
         .catch((err) => {
-          if (err.response.status === 401) {
-            this.UnauthorizedErrorHandler()
-          }
           reject(err)
         })
     })
@@ -353,15 +280,12 @@ export class PanelServices {
 
   addRequirement(data) {
     return new Promise((resolve, reject) => {
-      this.api
+      API
         .post('/person-requirement', data)
         .then((result) => {
           resolve(result)
         })
         .catch((err) => {
-          if (err.response.status === 401) {
-            this.UnauthorizedErrorHandler()
-          }
           reject(err)
         })
     })
@@ -369,15 +293,12 @@ export class PanelServices {
 
   updateRequirement(data) {
     return new Promise((resolve, reject) => {
-      this.api
+      API
         .put('/person-requirement', data)
         .then((result) => {
           resolve(result)
         })
         .catch((err) => {
-          if (err.response.status === 401) {
-            this.UnauthorizedErrorHandler()
-          }
           reject(err)
         })
     })
@@ -385,15 +306,12 @@ export class PanelServices {
 
   deleteRequirement(id) {
     return new Promise((resolve, reject) => {
-      this.api
+      API
         .delete(`/person-requirement/${id}`)
         .then((result) => {
           resolve(result)
         })
         .catch((err) => {
-          if (err.response.status === 401) {
-            this.UnauthorizedErrorHandler()
-          }
           reject(err)
         })
     })
@@ -401,15 +319,12 @@ export class PanelServices {
 
   getAllRequirements(id) {
     return new Promise((resolve, reject) => {
-      this.api
+      API
         .get(`/person/${id}/requirement`)
         .then((result) => {
           resolve(result)
         })
         .catch((err) => {
-          if (err.response.status === 401) {
-            this.UnauthorizedErrorHandler()
-          }
           reject(err)
         })
     })
