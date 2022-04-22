@@ -37,6 +37,7 @@
     "jalali-moment": "^3.3.10",
     "jquery": "3.5.1",
     "jsonwebtoken": "8.5.1",
+    "jwt-decode": "^3.1.2",
     "kuknos-extension-sdk": "^1.0.2",
     "leaflet": "1.6.0",
     "moment": "2.24.0",
